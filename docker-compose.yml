@@ -12,6 +12,12 @@ services:
     volumes:
       - cinema_storage:/var/www/html/storage
       - cinema_database:/var/www/html/database
+    depends_on: [redis]
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes: ["cinema_redis:/data"]
 volumes:
   cinema_storage:
   cinema_database:
+  cinema_redis:
