@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller; use App\Models\User; use Illuminate\Http\{Request,JsonResponse}; use Illuminate\Support\Facades\Hash;
+class AuthApiController extends Controller { public function login(Request $r):JsonResponse{$d=$r->validate(['email'=>'required|email','password'=>'required']);$u=User::where('email',$d['email'])->first();if(!$u||!Hash::check($d['password'],$u->password))return response()->json(['message'=>'اعتبارنامه نادرست است'],422);return response()->json(['token'=>$u->createToken('mobile')->plainTextToken,'user'=>$u]);} public function me(Request $r):JsonResponse{return response()->json($r->user());} public function logout(Request $r):JsonResponse{$r->user()->currentAccessToken()?->delete();return response()->json(['ok'=>true]);} }
