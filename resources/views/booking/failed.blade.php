@@ -1,0 +1,1 @@
+<!doctype html><html lang="fa" dir="rtl"><meta charset="utf-8"><link rel="stylesheet" href="/css/cinema.css"><main class="success container"><h1>پرداخت ناموفق بود</h1><p>رزرو شما نهایی نشد. لطفاً دوباره تلاش کنید.</p><a class="primary" href="/">بازگشت</a></main>

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController};
+use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController};
 use App\Http\Controllers\AuthController;
 
 Route::get('/', HomeController::class)->name('home');
@@ -11,6 +11,7 @@ Route::post('/logout',[AuthController::class,'logout'])->middleware('auth')->nam
 Route::get('/events/{event}', [BookingController::class,'event'])->name('events.show');
 Route::get('/booking/{show}/seats', [BookingController::class,'seats'])->name('booking.seats');
 Route::post('/booking/{show}/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
+Route::get('/payment/callback',[PaymentController::class,'callback'])->name('payment.callback');
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
 Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->name('tickets.qr');
 Route::post('/admin/tickets/{ticket}/checkin',[TicketController::class,'checkin'])->middleware(['auth','role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
