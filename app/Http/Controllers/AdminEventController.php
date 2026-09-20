@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\{Event,Category,Organization}; use Illuminate\Http\Request; use Illuminate\Support\Str;
+class AdminEventController extends Controller { public function index(){return view('admin.events.index',['events'=>Event::with('category')->latest()->paginate(15)]);} public function create(){return view('admin.events.form',['event'=>new Event,'categories'=>Category::where('type','event')->get()]);} public function store(Request $r){$d=$r->validate(['title'=>'required|max:190','summary'=>'nullable|max:1000','type'=>'required|in:cinema,theater','category_id'=>'nullable|exists:categories,id','duration'=>'nullable|integer|min:1']);$d['slug']=Str::slug($d['title']).'-'.Str::lower(Str::random(5));$d['organization_id']=Organization::firstOrCreate(['slug'=>'cinemaplus'],['name'=>'سینماپلاس'])->id;$d['status']='published';Event::create($d);return redirect()->route('admin.events.index')->with('success','رویداد ثبت شد.');} }

@@ -1,0 +1,4 @@
+<?php
+namespace App\Http\Controllers;
+use App\Models\Ticket; use Endroid\QrCode\QrCode; use Endroid\QrCode\Writer\PngWriter; use Illuminate\Http\Response;
+class TicketController extends Controller { public function qr(Ticket $ticket):Response{$ticket->load('order.show.event','seat');$png=(new PngWriter())->write(QrCode::create(json_encode(['ticket'=>$ticket->code,'event'=>$ticket->order->show->event->title],JSON_UNESCAPED_UNICODE))->setSize(360)->setMargin(12))->getString();return response($png,200,['Content-Type'=>'image/png','Cache-Control'=>'private, no-store']);} public function checkin(Ticket $ticket){abort_if($ticket->status!=='valid',422,'این بلیت قابل استفاده نیست.');$ticket->update(['status'=>'used','checked_in_at'=>now()]);return response()->json(['ok'=>true,'ticket'=>$ticket->code]);} }

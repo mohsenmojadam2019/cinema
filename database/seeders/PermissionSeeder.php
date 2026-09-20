@@ -1,0 +1,3 @@
+<?php
+namespace Database\Seeders; use Illuminate\Database\Seeder; use Spatie\Permission\Models\Permission; use Spatie\Permission\Models\Role;
+class PermissionSeeder extends Seeder { public function run():void{$names=['events.view','events.manage','venues.manage','shows.manage','orders.view','orders.refund','tickets.checkin','reports.view','settings.manage'];foreach($names as $name)Permission::firstOrCreate(['name'=>$name,'guard_name'=>'web']);$role=Role::firstOrCreate(['name'=>'مدیر سیستم','guard_name'=>'web']);$role->syncPermissions(Permission::all());foreach(['مدیر فروش','اپراتور گیشه'] as $name)Role::firstOrCreate(['name'=>$name,'guard_name'=>'web']);} }
