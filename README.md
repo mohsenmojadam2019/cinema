@@ -18,3 +18,11 @@ php artisan serve
 دامنه‌های اصلی: `organizations`, `categories`, `venues`, `seats`, `events`, `shows`, `orders`, `tickets`.
 
 برای فهرست کامل امکانات به [docs/FEATURES.md](docs/FEATURES.md) و برای نصب به [docs/INSTALLATION.md](docs/INSTALLATION.md) مراجعه کنید.
+
+## اجرای production با Docker
+```bash
+docker compose up -d --build
+docker compose exec app php artisan migrate --force --seed
+docker compose logs -f worker
+```
+سرویس `worker` صف‌های `notifications` و `default` را از Redis مصرف می‌کند و Nginx به‌عنوان reverse proxy جلوی برنامه قرار دارد. برای HTTPS، گواهی را در لایهٔ دامنه/Load Balancer یا Nginx محیط production نصب کنید و `APP_URL` و callback زرین‌پال را روی دامنهٔ HTTPS تنظیم کنید.
