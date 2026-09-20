@@ -3,6 +3,7 @@ namespace Tests\Feature;
 use App\Models\{Organization,Venue,Seat,Event,Show,User,Order,Ticket,Reservation,OrganizationBooking};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
+use Spatie\Permission\Models\Role;
 use App\Jobs\SendSmsJob;
 use Tests\TestCase;
 class SecurityAndBookingTest extends TestCase
@@ -16,4 +17,5 @@ class SecurityAndBookingTest extends TestCase
  public function test_mobile_checkout_creates_paid_order_and_ticket():void{$show=$this->show();$user=User::factory()->create();$response=$this->actingAs($user,'sanctum')->postJson('/api/shows/'.$show->id.'/checkout',['seats'=>[$show->venue->seats->first()->id]]);$response->assertCreated()->assertJsonPath('status','paid');$this->assertDatabaseHas('orders',['user_id'=>$user->id,'status'=>'paid']);$this->assertDatabaseHas('tickets',['status'=>'valid']);}
  public function test_health_endpoint_reports_database_and_cache():void{$this->getJson('/health')->assertOk()->assertJsonPath('status','ok')->assertJsonPath('checks.database','ok')->assertJsonPath('checks.cache','ok');}
  public function test_organization_booking_is_created_for_authenticated_customer():void{$show=$this->show();$user=User::factory()->create();$this->actingAs($user)->post(route('organization-bookings.store',$show),['organization_name'=>'سازمان نمونه','contact_name'=>'مدیر خرید','phone'=>'09120000000','email'=>'buy@example.test','guest_count'=>80,'kind'=>'seminar','notes'=>'رزرو سالن برای سمینار'])->assertRedirect(route('organization-bookings.success'));$this->assertDatabaseHas('organization_bookings',['show_id'=>$show->id,'user_id'=>$user->id,'kind'=>'seminar','status'=>'pending']);}
+ public function test_api_checkin_requires_operator_role():void{$show=$this->show();$owner=User::factory()->create();$ticket=Ticket::create(['order_id'=>Order::create(['user_id'=>$owner->id,'show_id'=>$show->id,'code'=>'CI-TEST','total'=>1000,'status'=>'paid'])->id,'seat_id'=>$show->venue->seats->first()->id,'code'=>'T-CI-TEST','status'=>'valid']);$operator=User::factory()->create();$this->actingAs($operator,'sanctum')->postJson('/api/tickets/'.$ticket->id.'/checkin')->assertForbidden();$role=Role::create(['name'=>'اپراتور گیشه','guard_name'=>'web']);$operator->assignRole($role);$this->actingAs($operator,'sanctum')->postJson('/api/tickets/'.$ticket->id.'/checkin')->assertOk()->assertJsonPath('ok',true);$this->assertDatabaseHas('tickets',['id'=>$ticket->id,'status'=>'used']);}
 }
