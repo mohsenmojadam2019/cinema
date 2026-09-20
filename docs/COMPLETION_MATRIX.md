@@ -6,12 +6,12 @@
 | رزرو سازمانی و پیش‌فاکتور | آماده | `OrganizationBookingController` و migrationهای 140000/141000 |
 | کنسرت و دسته‌بندی | آماده | category `singer-concerts` و type `concert` |
 | OTP صفی | آماده | `SendSmsJob`، Redis worker، RateLimiter |
-| SMS خرید/پرداخت/استرداد | آمادهٔ کدی | Jobهای پرداخت و refund؛ اجرای Kavenegar نیازمند کلید واقعی |
+| SMS خرید/پرداخت/لغو/استرداد | آمادهٔ کدی | Jobهای checkout، payment، cancel و refund؛ اجرای Kavenegar نیازمند کلید واقعی |
 | ZarinPal Sandbox | تست قراردادی | `ZarinpalServiceTest`; اجرای live نیازمند merchant واقعی |
 | refund idempotent | آماده | کنترل status و transaction در AdminReportController |
 | تسویه برگزارکننده | آماده | Settlement model، migration و پنل `/admin/settlements` |
 | رزرو هم‌زمان | تست‌شده | `lockForUpdate` و Feature test رزرو تکراری |
-| callback/refund/OTP/QR/check-in | تست‌شدهٔ بخشی | ۱۱ تست Feature و ZarinPal contract tests؛ تست live gateway نیازمند Sandbox credential است |
+| callback/refund/OTP/QR/check-in | تست‌شدهٔ بخشی | ۱۴ تست Feature و ZarinPal contract tests؛ تست live gateway نیازمند Sandbox credential است |
 | API موبایل | آماده | Sanctum auth، catalog، account و checkout routes |
 | محدودسازی QR/API | آماده | auth:sanctum و owner/operator authorization |
 | Media conversion | آمادهٔ صفی | queued Media Library conversion |
@@ -23,6 +23,7 @@
 | فیلترها | آماده | وب و API: متن، نوع، دسته، شهر، تاریخ |
 | مستندات و CI | آماده | README، docs، GitHub Actions tests workflow |
 | health check | آماده | `GET /health` با بررسی دیتابیس و cache؛ در تست HTTP اعتبارسنجی شده |
+| production config check | آماده | `php artisan cinema:config-check` بدون چاپ secretها |
 
 ## شفاف‌سازی محیطی
 
