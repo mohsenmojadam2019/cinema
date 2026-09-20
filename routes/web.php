@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController,CatalogController};
+use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController,CatalogController,AdminVenueController,AdminShowController};
 use App\Http\Controllers\AuthController;
 
 Route::get('/', HomeController::class)->name('home');
@@ -16,4 +16,4 @@ Route::get('/payment/callback',[PaymentController::class,'callback'])->name('pay
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
 Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->name('tickets.qr');
 Route::post('/admin/tickets/{ticket}/checkin',[TicketController::class,'checkin'])->middleware(['auth','role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
-Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);});
+Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);Route::resource('venues',AdminVenueController::class)->only(['index','create','store','destroy']);Route::resource('shows',AdminShowController::class)->only(['index','create','store','destroy']);});
