@@ -27,6 +27,12 @@ docker compose up --build
 
 سپس به `http://localhost:8000` بروید.
 
+## بررسی سلامت
+
+```bash
+php artisan cinema:health
+```
+
 ## پیامک
 
 ```env
