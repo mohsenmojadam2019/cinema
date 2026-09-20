@@ -13,4 +13,5 @@ Route::get('/booking/{show}/seats', [BookingController::class,'seats'])->name('b
 Route::post('/booking/{show}/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
 Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->name('tickets.qr');
+Route::post('/admin/tickets/{ticket}/checkin',[TicketController::class,'checkin'])->middleware(['auth','role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
 Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);});
