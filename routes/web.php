@@ -18,6 +18,6 @@ Route::get('/booking/{show}/seats', [BookingController::class,'seats'])->name('b
 Route::post('/booking/{show}/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
 Route::get('/payment/callback',[PaymentController::class,'callback'])->name('payment.callback');
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
-Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->name('tickets.qr');
+Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->middleware('auth')->name('tickets.qr');
 Route::post('/admin/tickets/{ticket}/checkin',[TicketController::class,'checkin'])->middleware(['auth','role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
 Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);Route::resource('venues',AdminVenueController::class)->only(['index','create','store','destroy']);Route::resource('shows',AdminShowController::class)->only(['index','create','store','destroy']);Route::get('/reports/sales',[AdminReportController::class,'sales'])->name('reports.sales');Route::get('/orders',[AdminReportController::class,'orders'])->name('orders.index');Route::post('/orders/{order}/refund',[AdminReportController::class,'refund'])->name('orders.refund');});
