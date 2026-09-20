@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController,CatalogController,AdminVenueController,AdminShowController};
-use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
+use App\Http\Controllers\{CustomerAuthController,CustomerAccountController,AdminSeatController,HealthController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationBookingController;
@@ -14,6 +14,7 @@ Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپرات
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/venues/{venue}/edit',[AdminVenueController::class,'edit'])->name('admin.venues.edit');Route::put('/admin/venues/{venue}',[AdminVenueController::class,'update'])->name('admin.venues.update');});
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/shows/{show}/edit',[AdminShowController::class,'edit'])->name('admin.shows.edit');Route::put('/admin/shows/{show}',[AdminShowController::class,'update'])->name('admin.shows.update');});
 Route::get('/admin/organization-bookings',[OrganizationBookingController::class,'index'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.index');
+Route::get('/health',HealthController::class)->name('health');
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/search',[CatalogController::class,'search'])->name('catalog.search');
@@ -30,4 +31,4 @@ Route::get('/payment/callback',[PaymentController::class,'callback'])->name('pay
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
 Route::get('/tickets/{ticket}/qr',[TicketController::class,'qr'])->middleware('auth')->name('tickets.qr');
 Route::post('/admin/tickets/{ticket}/checkin',[TicketController::class,'checkin'])->middleware(['auth','role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
-Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);Route::resource('venues',AdminVenueController::class)->only(['index','create','store','destroy']);Route::resource('shows',AdminShowController::class)->only(['index','create','store','destroy']);Route::get('/reports/sales',[AdminReportController::class,'sales'])->name('reports.sales');Route::get('/orders',[AdminReportController::class,'orders'])->name('orders.index');Route::post('/orders/{order}/refund',[AdminReportController::class,'refund'])->name('orders.refund');});
+Route::prefix('admin')->name('admin.')->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/',AdminDashboardController::class)->name('dashboard');Route::resource('events',AdminEventController::class)->only(['index','create','store']);Route::resource('venues',AdminVenueController::class)->only(['index','create','store','destroy']);Route::resource('shows',AdminShowController::class)->only(['index','create','store','destroy']);Route::get('/venues/{venue}/seats',[AdminSeatController::class,'index'])->name('seats.index');Route::put('/seats/{seat}',[AdminSeatController::class,'update'])->name('seats.update');Route::delete('/seats/{seat}',[AdminSeatController::class,'destroy'])->name('seats.destroy');Route::get('/reports/sales',[AdminReportController::class,'sales'])->name('reports.sales');Route::get('/orders',[AdminReportController::class,'orders'])->name('orders.index');Route::post('/orders/{order}/refund',[AdminReportController::class,'refund'])->name('orders.refund');});
