@@ -7,6 +7,7 @@ use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationBookingController;
+Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/shows/{show}/edit',[AdminShowController::class,'edit'])->name('admin.shows.edit');Route::put('/admin/shows/{show}',[AdminShowController::class,'update'])->name('admin.shows.update');});
 Route::get('/admin/organization-bookings',[OrganizationBookingController::class,'index'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.index');
 
 Route::get('/', HomeController::class)->name('home');
