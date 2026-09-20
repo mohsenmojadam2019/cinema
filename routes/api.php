@@ -1,7 +1,7 @@
 <?php
-use Illuminate\Support\Facades\Route; use App\Http\Controllers\Api\{CatalogApiController,TicketApiController,AuthApiController};
+use Illuminate\Support\Facades\Route; use App\Http\Controllers\Api\{CatalogApiController,TicketApiController,AuthApiController,AccountApiController};
 Route::post('/auth/login',[AuthApiController::class,'login']);
-Route::middleware('auth:sanctum')->group(function(){Route::get('/auth/me',[AuthApiController::class,'me']);Route::post('/auth/logout',[AuthApiController::class,'logout']);});
+Route::middleware('auth:sanctum')->group(function(){Route::get('/auth/me',[AuthApiController::class,'me']);Route::post('/auth/logout',[AuthApiController::class,'logout']);Route::get('/account/orders',[AccountApiController::class,'orders']);Route::get('/account/tickets',[AccountApiController::class,'tickets']);});
 Route::get('/events',[CatalogApiController::class,'events']);
 Route::get('/events/{event}',[CatalogApiController::class,'event']);
 Route::get('/shows/{show}',[CatalogApiController::class,'show']);
