@@ -4,6 +4,7 @@
 
 - `app`: Laravel application
 - `worker`: مصرف صف‌های Redis با queueهای `notifications,default`
+- `scheduler`: اجرای آزادسازی رزروها و backupهای زمان‌بندی‌شده
 - `redis`: cache و queue broker
 - `nginx`: reverse proxy روی پورت 80
 
@@ -43,7 +44,7 @@ Nginx داخلی، ترافیک را به سرویس `app` proxy می‌کند. 
 
 - health endpoint لاراول: `/up`
 - health command: `php artisan cinema:health`
-- لاگ: `docker compose logs -f app worker nginx`
+- لاگ: `docker compose logs -f app worker scheduler nginx`
 - خطاهای صف: `php artisan queue:failed`
 - اجرای worker باید با restart policy یا Supervisor/سرویس orchestration مدیریت شود.
 
