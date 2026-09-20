@@ -7,6 +7,7 @@ use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationBookingController;
+Route::post('/admin/organization-bookings/{booking}',[OrganizationBookingController::class,'update'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.update');
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/events/{event}/edit',[AdminEventController::class,'edit'])->name('admin.events.edit');Route::put('/admin/events/{event}',[AdminEventController::class,'update'])->name('admin.events.update');});
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/venues/{venue}/edit',[AdminVenueController::class,'edit'])->name('admin.venues.edit');Route::put('/admin/venues/{venue}',[AdminVenueController::class,'update'])->name('admin.venues.update');});
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/shows/{show}/edit',[AdminShowController::class,'edit'])->name('admin.shows.edit');Route::put('/admin/shows/{show}',[AdminShowController::class,'update'])->name('admin.shows.update');});
