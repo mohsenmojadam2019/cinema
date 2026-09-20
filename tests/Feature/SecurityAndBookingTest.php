@@ -1,6 +1,6 @@
 <?php
 namespace Tests\Feature;
-use App\Models\{Organization,Venue,Seat,Event,Show,User,Order,Ticket,Reservation};
+use App\Models\{Organization,Venue,Seat,Event,Show,User,Order,Ticket,Reservation,OrganizationBooking};
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\SendSmsJob;
@@ -14,4 +14,6 @@ class SecurityAndBookingTest extends TestCase
  public function test_second_reservation_is_rejected():void{$show=$this->show();$user=User::factory()->create();$this->actingAs($user)->post(route('booking.checkout',$show),['seats'=>[$show->venue->seats->first()->id]])->assertRedirect();$this->actingAs($user)->post(route('booking.checkout',$show),['seats'=>[$show->venue->seats->first()->id]])->assertStatus(409);$this->assertDatabaseCount('reservations',1);}
  public function test_customer_otp_dispatches_notification_job():void{Queue::fake();$this->post(route('customer.login.send'),['phone'=>'09120000000'])->assertSessionHas('success');Queue::assertPushed(SendSmsJob::class,fn($job)=>$job->phone==='09120000000');$this->assertDatabaseHas('login_codes',['phone'=>'09120000000']);}
  public function test_mobile_checkout_creates_paid_order_and_ticket():void{$show=$this->show();$user=User::factory()->create();$response=$this->actingAs($user,'sanctum')->postJson('/api/shows/'.$show->id.'/checkout',['seats'=>[$show->venue->seats->first()->id]]);$response->assertCreated()->assertJsonPath('status','paid');$this->assertDatabaseHas('orders',['user_id'=>$user->id,'status'=>'paid']);$this->assertDatabaseHas('tickets',['status'=>'valid']);}
+ public function test_health_endpoint_reports_database_and_cache():void{$this->getJson('/health')->assertOk()->assertJsonPath('status','ok')->assertJsonPath('checks.database','ok')->assertJsonPath('checks.cache','ok');}
+ public function test_organization_booking_is_created_for_authenticated_customer():void{$show=$this->show();$user=User::factory()->create();$this->actingAs($user)->post(route('organization-bookings.store',$show),['organization_name'=>'سازمان نمونه','contact_name'=>'مدیر خرید','phone'=>'09120000000','email'=>'buy@example.test','guest_count'=>80,'kind'=>'seminar','notes'=>'رزرو سالن برای سمینار'])->assertRedirect(route('organization-bookings.success'));$this->assertDatabaseHas('organization_bookings',['show_id'=>$show->id,'user_id'=>$user->id,'kind'=>'seminar','status'=>'pending']);}
 }
