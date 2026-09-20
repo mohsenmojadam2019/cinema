@@ -7,6 +7,8 @@ use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrganizationBookingController;
+use App\Http\Controllers\AdminSettlementController;
+Route::middleware(['auth','role:مدیر سیستم|مدیر فروش'])->group(function(){Route::get('/admin/settlements',[AdminSettlementController::class,'index'])->name('admin.settlements.index');Route::post('/admin/settlements',[AdminSettlementController::class,'store'])->name('admin.settlements.store');Route::post('/admin/settlements/{settlement}/paid',[AdminSettlementController::class,'markPaid'])->name('admin.settlements.paid');});
 Route::post('/admin/organization-bookings/{booking}',[OrganizationBookingController::class,'update'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.update');
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/events/{event}/edit',[AdminEventController::class,'edit'])->name('admin.events.edit');Route::put('/admin/events/{event}',[AdminEventController::class,'update'])->name('admin.events.update');});
 Route::middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function(){Route::get('/admin/venues/{venue}/edit',[AdminVenueController::class,'edit'])->name('admin.venues.edit');Route::put('/admin/venues/{venue}',[AdminVenueController::class,'update'])->name('admin.venues.update');});
