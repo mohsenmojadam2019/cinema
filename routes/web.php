@@ -6,6 +6,7 @@ use App\Http\Controllers\{BookingController,AdminDashboardController,TicketContr
 use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrganizationBookingController;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/search',[CatalogController::class,'search'])->name('catalog.search');
@@ -15,6 +16,8 @@ Route::get('/customer/login',[CustomerAuthController::class,'show'])->name('cust
 Route::middleware('auth')->prefix('account')->name('account.')->group(function(){Route::get('/orders',[CustomerAccountController::class,'orders'])->name('orders');Route::get('/tickets',[CustomerAccountController::class,'tickets'])->name('tickets');});
 Route::get('/events/{event}', [BookingController::class,'event'])->name('events.show');
 Route::get('/booking/{show}/seats', [BookingController::class,'seats'])->name('booking.seats');
+Route::get('/organization-bookings/success',[OrganizationBookingController::class,'success'])->name('organization-bookings.success');
+Route::middleware('auth')->group(function(){Route::get('/organization-bookings/{show}',[OrganizationBookingController::class,'create'])->name('organization-bookings.create');Route::post('/organization-bookings/{show}',[OrganizationBookingController::class,'store'])->name('organization-bookings.store');});
 Route::post('/booking/{show}/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
 Route::get('/payment/callback',[PaymentController::class,'callback'])->name('payment.callback');
 Route::get('/booking/success/{order}', [BookingController::class,'success'])->name('booking.success');
