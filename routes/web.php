@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController};
+use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController,CatalogController};
 use App\Http\Controllers\AuthController;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/search',[CatalogController::class,'search'])->name('catalog.search');
 Route::middleware('guest')->group(function(){Route::get('/login',[AuthController::class,'show'])->name('login');Route::post('/login',[AuthController::class,'login'])->name('login.store');});
 Route::post('/logout',[AuthController::class,'logout'])->middleware('auth')->name('logout');
 Route::get('/events/{event}', [BookingController::class,'event'])->name('events.show');
