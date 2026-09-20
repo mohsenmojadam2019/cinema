@@ -42,7 +42,7 @@ Nginx داخلی، ترافیک را به سرویس `app` proxy می‌کند. 
 
 ## پایش و سلامت
 
-- health endpoint لاراول: `/up`
+- health endpoint لاراول: `/health` و `/up`
 - health command: `php artisan cinema:health`
 - لاگ: `docker compose logs -f app worker scheduler nginx`
 - خطاهای صف: `php artisan queue:failed`
@@ -55,4 +55,8 @@ docker compose exec app php artisan cinema:backup
 docker compose exec app php artisan migrate:status
 ```
 
-قبل از release، یک restore آزمایشی روی محیط جداگانه انجام دهید و فایل‌های `storage` و دیتابیس را هر دو backup کنید.
+فایل‌های قدیمی‌تر از `BACKUP_RETENTION_DAYS` خودکار حذف می‌شوند. قبل از release، یک restore آزمایشی روی محیط جداگانه انجام دهید و فایل‌های `storage` و دیتابیس را هر دو backup کنید. برای SQLite:
+
+```bash
+docker compose exec app sh -lc 'cp storage/backups/cinema-YYYYMMDD-HHMMSS.sqlite database/restore-test.sqlite && sqlite3 database/restore-test.sqlite "PRAGMA integrity_check;"'
+```

@@ -18,6 +18,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: unless-stopped
   nginx:
     image: nginx:1.27-alpine
     ports: ["80:80"]
@@ -39,6 +40,7 @@ services:
       - cinema_storage:/var/www/html/storage
       - cinema_database:/var/www/html/database
     depends_on: [redis, app]
+    restart: unless-stopped
   scheduler:
     build: .
     command: php artisan schedule:work
@@ -52,10 +54,16 @@ services:
       - cinema_storage:/var/www/html/storage
       - cinema_database:/var/www/html/database
     depends_on: [redis, app]
+    restart: unless-stopped
   redis:
     image: redis:7-alpine
     restart: unless-stopped
     volumes: ["cinema_redis:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   cinema_storage:
   cinema_database:
