@@ -14,6 +14,7 @@ php artisan key:generate
 docker compose up -d --build
 docker compose exec app php artisan migrate --force --seed
 docker compose exec app php artisan storage:link
+docker compose exec app php artisan cinema:config-check
 ```
 
 ## تنظیمات ضروری `.env`
@@ -35,6 +36,8 @@ ZARINPAL_CALLBACK_URL=https://cinema.example.ir/payment/callback
 ```
 
 کلیدها نباید در Git، Seeder یا Docker image قرار بگیرند.
+
+`cinema:config-check` فقط نام متغیرهای ناقص یا نامعتبر را چاپ می‌کند و هیچ secretای را نمایش نمی‌دهد؛ این دستور را در CI/CD و قبل از release اجرا کنید.
 
 ## HTTPS و دامنه
 
