@@ -3,12 +3,20 @@ services:
     build: .
     ports: ["8000:8000"]
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
+      APP_ENV: ${APP_ENV:-production}
+      APP_DEBUG: ${APP_DEBUG:-false}
+      APP_URL: ${APP_URL:-https://cinema.example.ir}
       DB_CONNECTION: sqlite
       DB_DATABASE: /var/www/html/database/database.sqlite
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
       KAVENEGAR_API_KEY: ${KAVENEGAR_API_KEY:-}
       KAVENEGAR_SENDER: ${KAVENEGAR_SENDER:-}
+      PAYMENT_DRIVER: ${PAYMENT_DRIVER:-zarinpal}
+      ZARINPAL_MERCHANT_ID: ${ZARINPAL_MERCHANT_ID:-}
+      ZARINPAL_SANDBOX: ${ZARINPAL_SANDBOX:-false}
+      ZARINPAL_CALLBACK_URL: ${ZARINPAL_CALLBACK_URL:-https://cinema.example.ir/payment/callback}
     volumes:
       - cinema_storage:/var/www/html/storage
       - cinema_database:/var/www/html/database

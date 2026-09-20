@@ -37,7 +37,7 @@ ZARINPAL_CALLBACK_URL=https://cinema.example.ir/payment/callback
 
 کلیدها نباید در Git، Seeder یا Docker image قرار بگیرند.
 
-`cinema:config-check` فقط نام متغیرهای ناقص یا نامعتبر را چاپ می‌کند و هیچ secretای را نمایش نمی‌دهد؛ این دستور را در CI/CD و قبل از release اجرا کنید.
+`cinema:config-check` فقط نام متغیرهای ناقص یا نامعتبر را چاپ می‌کند و هیچ secretای را نمایش نمی‌دهد؛ این دستور را در CI/CD و قبل از release اجرا کنید. Compose سرویس `app` را به‌صورت پیش‌فرض با `APP_ENV=production` و `APP_DEBUG=false` اجرا می‌کند؛ مقادیر را فقط از `.env` محیط استقرار override کنید.
 
 ## HTTPS و دامنه
 
