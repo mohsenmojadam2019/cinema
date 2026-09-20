@@ -6,8 +6,8 @@ use App\Http\Controllers\{BookingController,AdminDashboardController,TicketContr
 use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AuthController;
-Route::get('/admin/organization-bookings',[OrganizationBookingController::class,'index'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.index');
 use App\Http\Controllers\OrganizationBookingController;
+Route::get('/admin/organization-bookings',[OrganizationBookingController::class,'index'])->middleware(['auth','role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->name('admin.organization-bookings.index');
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/search',[CatalogController::class,'search'])->name('catalog.search');
