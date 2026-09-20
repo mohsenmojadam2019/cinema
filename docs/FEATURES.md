@@ -28,6 +28,21 @@
 - تاریخ شمسی با Morilog Jalali/Byekan-compatible API
 - Docker Compose
 
+## API
+
+```text
+GET /api/events
+GET /api/events/{event}
+GET /api/shows/{show}
+POST /api/tickets/{ticket}/checkin
+```
+
+## پشتیبان‌گیری
+
+```bash
+php artisan cinema:backup
+```
+
 ## تصاویر طراحی
 
 ![صفحه اصلی](../public/images/concepts/home-concept.png)
