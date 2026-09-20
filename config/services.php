@@ -2,6 +2,7 @@
 
 return [
     'kavenegar' => ['key' => env('KAVENEGAR_API_KEY'), 'sender' => env('KAVENEGAR_SENDER')],
+    'sms' => ['driver'=>env('SMS_DRIVER','log')],
     'payment' => ['driver'=>env('PAYMENT_DRIVER','mock'),'merchant_id'=>env('PAYMENT_MERCHANT_ID'),'callback_url'=>env('PAYMENT_CALLBACK_URL')],
     'zarinpal' => ['merchant_id'=>env('ZARINPAL_MERCHANT_ID','xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'),'sandbox'=>filter_var(env('ZARINPAL_SANDBOX',true),FILTER_VALIDATE_BOOL),'callback_url'=>env('ZARINPAL_CALLBACK_URL',env('APP_URL').'/payment/callback')],
 
