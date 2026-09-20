@@ -3,12 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\{BookingController,AdminDashboardController,TicketController,AdminEventController,PaymentController,CatalogController,AdminVenueController,AdminShowController};
+use App\Http\Controllers\{CustomerAuthController,CustomerAccountController};
 use App\Http\Controllers\AuthController;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/search',[CatalogController::class,'search'])->name('catalog.search');
 Route::middleware('guest')->group(function(){Route::get('/login',[AuthController::class,'show'])->name('login');Route::post('/login',[AuthController::class,'login'])->name('login.store');});
 Route::post('/logout',[AuthController::class,'logout'])->middleware('auth')->name('logout');
+Route::get('/customer/login',[CustomerAuthController::class,'show'])->name('customer.login');Route::post('/customer/login/send',[CustomerAuthController::class,'send'])->name('customer.login.send');Route::post('/customer/login/verify',[CustomerAuthController::class,'verify'])->name('customer.login.verify');
+Route::middleware('auth')->prefix('account')->name('account.')->group(function(){Route::get('/orders',[CustomerAccountController::class,'orders'])->name('orders');Route::get('/tickets',[CustomerAccountController::class,'tickets'])->name('tickets');});
 Route::get('/events/{event}', [BookingController::class,'event'])->name('events.show');
 Route::get('/booking/{show}/seats', [BookingController::class,'seats'])->name('booking.seats');
 Route::post('/booking/{show}/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
