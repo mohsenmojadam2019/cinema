@@ -27,3 +27,7 @@ jobs:
         run: find app config routes database -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Test suite
         run: php artisan test --compact
+      - name: Application health
+        run: php artisan cinema:health
+      - name: Route registration
+        run: php artisan route:list --compact
