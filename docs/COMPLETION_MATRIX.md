@@ -18,7 +18,7 @@
 | Redis/Queue production | آماده | Docker services `redis`, `worker`, `scheduler` |
 | HTTPS/Nginx | template آماده | `docker/nginx-production.conf`; گواهی واقعی بیرون Git |
 | Backup و scheduler | آماده | `cinema:backup` و `schedule:work` |
-| تصاویر اختصاصی ۲۰ فیلم | در حال تکمیل | ۱۲ پوستر اختصاصی واقعی در `public/images/posters` و Seeder؛ ۸ پوستر باقی‌مانده |
+| تصاویر اختصاصی ۲۰ فیلم | آماده | ۲۰ فایل PNG مستقل در `public/images/posters`؛ ۱۲ asset طراحی‌شده و ۸ asset قابل‌بازتولید با `php artisan cinema:posters` و متصل به Seeder |
 | UX موبایل | پایه آماده | RTL responsive CSS؛ بررسی مرورگر production لازم است |
 | فیلترها | آماده | وب و API: متن، نوع، دسته، شهر، تاریخ |
 | مستندات و CI | آماده | README، docs، GitHub Actions tests workflow |
