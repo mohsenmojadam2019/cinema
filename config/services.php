@@ -2,6 +2,7 @@
 
 return [
     'kavenegar' => ['key' => env('KAVENEGAR_API_KEY'), 'sender' => env('KAVENEGAR_SENDER')],
+    'payment' => ['driver'=>env('PAYMENT_DRIVER','mock'),'merchant_id'=>env('PAYMENT_MERCHANT_ID'),'callback_url'=>env('PAYMENT_CALLBACK_URL')],
 
     /*
     |--------------------------------------------------------------------------
