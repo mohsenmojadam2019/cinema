@@ -26,3 +26,4 @@ docker compose exec app php artisan migrate --force --seed
 docker compose logs -f worker
 ```
 سرویس `worker` صف‌های `notifications` و `default` را از Redis مصرف می‌کند و Nginx به‌عنوان reverse proxy جلوی برنامه قرار دارد. برای HTTPS، گواهی را در لایهٔ دامنه/Load Balancer یا Nginx محیط production نصب کنید و `APP_URL` و callback زرین‌پال را روی دامنهٔ HTTPS تنظیم کنید.
+راهنمای API موبایل: [docs/API.md](docs/API.md)
