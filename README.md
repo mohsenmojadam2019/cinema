@@ -16,3 +16,5 @@ php artisan serve
 طرح‌های اولیه در `public/images/concepts` قرار دارند. کلید Kavenegar و تنظیمات درگاه پرداخت باید فقط در `.env` باشند.
 
 دامنه‌های اصلی: `organizations`, `categories`, `venues`, `seats`, `events`, `shows`, `orders`, `tickets`.
+
+برای فهرست کامل امکانات به [docs/FEATURES.md](docs/FEATURES.md) و برای نصب به [docs/INSTALLATION.md](docs/INSTALLATION.md) مراجعه کنید.
