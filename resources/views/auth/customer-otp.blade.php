@@ -1,1 +1,18 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ورود با پیامک | سینماپلاس</title><link rel="stylesheet" href="/css/cinema.css"></head><body><main class="container"><section class="ticket login-box"><div class="brand"><img src="/images/branding/cinemaplus-logo.png" alt="سینماپلاس"><span>سینما<span class="brand-accent">پلاس</span></span></div><span class="eyebrow">خرید سریع و امن</span><h1>ورود به حساب کاربری</h1><p class="muted">برای ادامه، شماره موبایل خود را وارد کنید.</p>@if(session('success'))<p class="status">{{ session('success') }}</p>@endif@if($errors->any())<p style="color:#e64e60">{{ $errors->first() }}</p>@endif<form method="post" action="{{ route('customer.login.send') }}">@csrf<label>شماره موبایل<input class="input" name="phone" placeholder="۰۹۱۲۱۲۳۴۵۶۷" value="{{ session('phone') }}" required></label><button class="btn btn-red full">ارسال کد یکبارمصرف</button></form><hr><form method="post" action="{{ route('customer.login.verify') }}">@csrf<label>کد شش رقمی<input class="input" name="code" inputmode="numeric" placeholder="کد پیامک‌شده" required></label><input type="hidden" name="phone" value="{{ session('phone') }}"><button class="btn btn-outline full">تأیید و ورود</button></form></section></main></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ورود با پیامک | سینماپلاس</title><link rel="stylesheet" href="/css/cinema.css"></head>
+<body>
+<main class="container">
+<section class="ticket login-box">
+<div class="brand"><img src="/images/branding/cinemaplus-logo.png" alt="سینماپلاس"><span>سینما<span class="brand-accent">پلاس</span></span></div>
+<span class="eyebrow">خرید سریع و امن</span><h1>ورود به حساب کاربری</h1><p class="muted">برای ادامه، شماره موبایل خود را وارد کنید.</p>
+@if(session('success'))<p class="status">{{ session('success') }}</p>@endif
+@if($errors->any())<p style="color:#e64e60">{{ $errors->first() }}</p>@endif
+<form method="post" action="{{ route('customer.login.send') }}">@csrf
+<label>شماره موبایل<input class="input" name="phone" placeholder="۰۹۱۲۱۲۳۴۵۶۷" value="{{ session('phone') }}" required></label>
+<button class="btn btn-red full">ارسال کد یکبارمصرف</button></form>
+<hr>
+<form method="post" action="{{ route('customer.login.verify') }}">@csrf
+<label>کد شش رقمی<input class="input" name="code" inputmode="numeric" placeholder="کد پیامک‌شده" required></label>
+<input type="hidden" name="phone" value="{{ session('phone') }}"><button class="btn btn-outline full">تأیید و ورود</button></form>
+</section></main></body></html>
