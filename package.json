@@ -15,5 +15,8 @@
     },
     "optionalDependencies": {
         "@laravel/multiplex": "^0.4.1"
+    },
+    "dependencies": {
+        "persian-datepicker": "^1.2.0"
     }
 }

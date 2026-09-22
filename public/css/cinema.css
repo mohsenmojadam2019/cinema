@@ -87,7 +87,7 @@ body.cinema-auth-page::after{
 .cinema-auth-visual{
   position:relative;min-height:720px;overflow:hidden;border-radius:32px;border:1px solid rgba(255,255,255,.1);
   background:linear-gradient(180deg,rgba(3,9,18,.08),rgba(3,9,18,.35) 43%,rgba(3,9,18,.95)),
-  url('/images/concepts/seat-selection-concept.png') center/cover;
+  url('/images/iranian-cinema-cast.png') center/cover;
   box-shadow:0 40px 100px rgba(0,0,0,.46);
 }
 .cinema-auth-visual::before{
