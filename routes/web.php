@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminSearchController;
 use App\Http\Controllers\AdminSeatController;
 use App\Http\Controllers\AdminSettlementController;
 use App\Http\Controllers\AdminShowController;
+use App\Http\Controllers\AdminSupportController;
 use App\Http\Controllers\AdminVenueController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
@@ -98,6 +99,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::get('/marketing', [AdminMarketingController::class, 'index'])->name('marketing.index');
     Route::post('/marketing/coupons', [AdminMarketingController::class, 'store'])->name('marketing.coupons.store');
     Route::get('/loyalty', [AdminLoyaltyController::class, 'index'])->name('loyalty.index');
+    Route::get('/support', [AdminSupportController::class, 'index'])->name('support.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
 });
