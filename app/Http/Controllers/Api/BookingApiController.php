@@ -48,6 +48,7 @@ class BookingApiController extends Controller
 
             return response()->json(['order' => $order, 'payment_url' => app(ZarinpalService::class)->url($payment)], 202);
         } $order->update(['status' => 'paid', 'paid_at' => now()]);
+        $r->user()?->increment('loyalty_points', max(1, intdiv((int) $order->total, 100000)));
         Reservation::where('token', $order->code)->update(['status' => 'converted']);
         Ticket::where('order_id', $order->id)->update(['status' => 'valid']);
         if ($r->user()?->phone) {

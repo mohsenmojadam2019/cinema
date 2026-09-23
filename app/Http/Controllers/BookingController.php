@@ -67,6 +67,7 @@ class BookingController extends Controller
 
             return redirect()->away(app(ZarinpalService::class)->url($payment));
         }$order->update(['status' => 'paid', 'paid_at' => now()]);
+        auth()->user()?->increment('loyalty_points', max(1, intdiv((int) $order->total, 100000)));
         Reservation::where('token', $order->code)->update(['status' => 'converted']);
         Ticket::where('order_id', $order->id)->update(['status' => 'valid']);
         if (auth()->user()?->phone) {
