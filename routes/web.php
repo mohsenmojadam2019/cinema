@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAccessController;
+use App\Http\Controllers\AdminActivityController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminEventController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrganizationBookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TicketController;
+use App\Http\Middleware\LogAdminActivity;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'role:مدیر سیستم|مدیر فروش'])->group(function () {
@@ -80,7 +82,7 @@ Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('p
 Route::get('/booking/success/{order}', [BookingController::class, 'success'])->name('booking.success');
 Route::get('/tickets/{ticket}/qr', [TicketController::class, 'qr'])->middleware('auth')->name('tickets.qr');
 Route::post('/admin/tickets/{ticket}/checkin', [TicketController::class, 'checkin'])->middleware(['auth', 'role:مدیر سیستم|اپراتور گیشه'])->name('admin.tickets.checkin');
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سیستم|مدیر فروش|اپراتور گیشه'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سیستم|مدیر فروش|اپراتور گیشه', LogAdminActivity::class])->group(function () {
     Route::get('/', AdminDashboardController::class)->name('dashboard');
     Route::resource('events', AdminEventController::class)->only(['index', 'create', 'store', 'destroy']);
     Route::resource('venues', AdminVenueController::class)->only(['index', 'create', 'store', 'destroy']);
@@ -100,6 +102,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::post('/marketing/coupons', [AdminMarketingController::class, 'store'])->name('marketing.coupons.store');
     Route::get('/loyalty', [AdminLoyaltyController::class, 'index'])->name('loyalty.index');
     Route::get('/support', [AdminSupportController::class, 'index'])->name('support.index');
+    Route::get('/activity', [AdminActivityController::class, 'index'])->name('activity.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
 });
