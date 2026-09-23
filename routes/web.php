@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminExportController;
 use App\Http\Controllers\AdminOperationsController;
 use App\Http\Controllers\AdminPaymentController;
 use App\Http\Controllers\AdminReportController;
@@ -84,6 +85,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::put('/seats/{seat}', [AdminSeatController::class, 'update'])->name('seats.update');
     Route::delete('/seats/{seat}', [AdminSeatController::class, 'destroy'])->name('seats.destroy');
     Route::get('/reports/sales', [AdminReportController::class, 'sales'])->name('reports.sales');
+    Route::get('/reports/sales/export', [AdminExportController::class, 'sales'])->name('reports.sales.export');
     Route::get('/orders', [AdminReportController::class, 'orders'])->name('orders.index');
     Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
