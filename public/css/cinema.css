@@ -155,3 +155,14 @@ body.cinema-auth-page::after{
   .cinema-auth-shell{min-height:100svh;display:flex;align-items:center}
   .cinema-auth-card{width:100%}
 }
+
+/* Search pagination: the Laravel Tailwind view is used without Tailwind on public pages. */
+main.container nav[role="navigation"]{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:28px 0 48px;color:var(--muted);font-size:13px;direction:rtl}
+main.container nav[role="navigation"]>div{display:flex;align-items:center;gap:8px}
+main.container nav[role="navigation"] a,main.container nav[role="navigation"] span[aria-disabled] span,main.container nav[role="navigation"] span[aria-current] span{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 11px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:#d9e4f2;text-decoration:none;line-height:1}
+main.container nav[role="navigation"] a:hover{border-color:var(--red);color:#fff;background:#172d4a}
+main.container nav[role="navigation"] span[aria-current] span{background:var(--red);border-color:var(--red);color:#fff}
+main.container nav[role="navigation"] svg{width:18px!important;height:18px!important;display:block;fill:currentColor}
+main.container nav[role="navigation"] p{margin:0;color:var(--muted)}
+main.container nav[role="navigation"] .hidden{display:flex!important}
+@media(max-width:560px){main.container nav[role="navigation"]{align-items:stretch;flex-direction:column;margin-bottom:30px}main.container nav[role="navigation"]>div{justify-content:center;flex-wrap:wrap}}

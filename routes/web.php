@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminPaymentController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminSeatController;
 use App\Http\Controllers\AdminSettlementController;
@@ -81,6 +83,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::delete('/seats/{seat}', [AdminSeatController::class, 'destroy'])->name('seats.destroy');
     Route::get('/reports/sales', [AdminReportController::class, 'sales'])->name('reports.sales');
     Route::get('/orders', [AdminReportController::class, 'orders'])->name('orders.index');
+    Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
+    Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
-    Route::post('/orders/{order}/refund',[AdminReportController::class, 'refund'])->name('orders.refund');
+    Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
 });
