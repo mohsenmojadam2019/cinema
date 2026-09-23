@@ -96,6 +96,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
     Route::get('/access', [AdminAccessController::class, 'index'])->name('access.index');
+    Route::post('/access/roles', [AdminAccessController::class, 'storeRole'])->name('access.roles.store');
     Route::get('/operations', [AdminOperationsController::class, 'index'])->name('operations.index');
     Route::get('/search', AdminSearchController::class)->name('search');
     Route::get('/marketing', [AdminMarketingController::class, 'index'])->name('marketing.index');
