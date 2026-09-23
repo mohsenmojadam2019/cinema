@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminEventController;
+use App\Http\Controllers\AdminOperationsController;
 use App\Http\Controllers\AdminPaymentController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\AdminSeatController;
@@ -87,6 +88,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
     Route::get('/access', [AdminAccessController::class, 'index'])->name('access.index');
+    Route::get('/operations', [AdminOperationsController::class, 'index'])->name('operations.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
 });
