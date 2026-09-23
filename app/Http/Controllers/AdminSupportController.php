@@ -16,4 +16,11 @@ class AdminSupportController extends Controller
 
         return view('admin.support.index', ['tickets' => $query->paginate(25)->withQueryString()]);
     }
+
+    public function update(Request $request, SupportTicket $ticket)
+    {
+        $ticket->update($request->validate(['status' => ['required', 'in:new,open,pending,resolved,closed'], 'priority' => ['required', 'in:low,normal,high,urgent']]));
+
+        return back()->with('success', 'تیکت به‌روزرسانی شد.');
+    }
 }

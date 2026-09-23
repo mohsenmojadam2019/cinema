@@ -102,6 +102,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::post('/marketing/coupons', [AdminMarketingController::class, 'store'])->name('marketing.coupons.store');
     Route::get('/loyalty', [AdminLoyaltyController::class, 'index'])->name('loyalty.index');
     Route::get('/support', [AdminSupportController::class, 'index'])->name('support.index');
+    Route::put('/support/{ticket}', [AdminSupportController::class, 'update'])->name('support.update');
     Route::get('/activity', [AdminActivityController::class, 'index'])->name('activity.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
