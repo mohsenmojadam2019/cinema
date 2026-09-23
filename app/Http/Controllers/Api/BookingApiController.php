@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Models\Seat;
 use App\Models\Show;
 use App\Models\Ticket;
+use App\Services\DiscountService;
 use App\Services\ZarinpalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,9 +18,9 @@ use Illuminate\Support\Str;
 
 class BookingApiController extends Controller
 {
-    public function checkout(Request $r, Show $show): JsonResponse
+    public function checkout(Request $r, Show $show, DiscountService $discounts): JsonResponse
     {
-        $data = $r->validate(['seats' => 'required|array|min:1', 'seats.*' => 'integer|exists:seats,id']);
+        $data = $r->validate(['seats' => 'required|array|min:1', 'seats.*' => 'integer|exists:seats,id', 'coupon_code' => 'nullable|string|max:40']);
         $show->load('venue');
         $order = null;
         DB::transaction(function () use ($data, $show, &$order, $r) {
@@ -35,6 +36,11 @@ class BookingApiController extends Controller
                 Ticket::create(['order_id' => $order->id, 'seat_id' => $seat->id, 'code' => 'T-'.strtoupper(Str::random(12)), 'status' => 'pending']);
             }
         });
+        [$finalTotal, $coupon] = $discounts->apply($data['coupon_code'] ?? null, (int) $order->total);
+        if ($coupon) {
+            $order->update(['total' => $finalTotal]);
+            $coupon->increment('used_count');
+        }
         $merchant = (string) config('services.zarinpal.merchant_id');
         $useGateway = config('services.payment.driver') === 'zarinpal' && filled($merchant) && ! str_contains($merchant, 'xxxx');
         if ($useGateway) {
@@ -48,6 +54,6 @@ class BookingApiController extends Controller
             SendSmsJob::dispatch($r->user()->phone, 'خرید سفارش '.$order->code.' با موفقیت ثبت شد.')->onQueue('notifications');
         }
 
-return response()->json($order->load('tickets.seat','show.event'),201);
+        return response()->json($order->load('tickets.seat', 'show.event'), 201);
     }
 }

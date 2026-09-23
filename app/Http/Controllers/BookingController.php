@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Models\Seat;
 use App\Models\Show;
 use App\Models\Ticket;
+use App\Services\DiscountService;
 use App\Services\ZarinpalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,13 +32,14 @@ class BookingController extends Controller
         return view('booking.seats', ['show' => $show, 'seats' => $show->venue->seats()->where('is_active', true)->orderBy('row_label')->orderBy('number')->get(), 'taken' => $taken->merge($held)]);
     }
 
-    public function checkout(Request $request, Show $show)
+    public function checkout(Request $request, Show $show, DiscountService $discounts)
     {
         if (! auth()->check()) {
             return redirect()->route('customer.login')->with('error', 'برای خرید ابتدا وارد حساب مشتری شوید.');
-        }$data = $request->validate(['seats' => 'required|array|min:1', 'seats.*' => 'integer|exists:seats,id']);
+        }$data = $request->validate(['seats' => 'required|array|min:1', 'seats.*' => 'integer|exists:seats,id', 'coupon_code' => 'nullable|string|max:40']);
         $show->load('venue');
         $order = null;
+        $coupon = null;
         DB::transaction(function () use ($data, $show, &$order) {
             $seats = Seat::whereIn('id', $data['seats'])->where('venue_id', $show->venue_id)->lockForUpdate()->get();
             if ($seats->count() !== count($data['seats'])) {
@@ -51,6 +53,11 @@ class BookingController extends Controller
                 Ticket::create(['order_id' => $order->id, 'seat_id' => $seat->id, 'code' => 'T-'.strtoupper(Str::random(12)), 'status' => 'pending']);
             }
         });
+        [$finalTotal, $coupon] = $discounts->apply($data['coupon_code'] ?? null, (int) $order->total);
+        if ($coupon) {
+            $order->update(['total' => $finalTotal]);
+            $coupon->increment('used_count');
+        }
         $merchant = (string) config('services.zarinpal.merchant_id');
         $useGateway = config('services.payment.driver') === 'zarinpal'
             && filled($merchant)
