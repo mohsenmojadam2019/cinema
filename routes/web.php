@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminEventController;
@@ -85,6 +86,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:مدیر سی�
     Route::get('/orders', [AdminReportController::class, 'orders'])->name('orders.index');
     Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
+    Route::get('/access', [AdminAccessController::class, 'index'])->name('access.index');
     Route::post('/orders/{order}/cancel', [AdminReportController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/refund', [AdminReportController::class, 'refund'])->name('orders.refund');
 });
